@@ -193,7 +193,6 @@ export function DashboardView({
           <input
             type="file"
             accept="image/*"
-            capture="environment"
             className="hidden"
             onChange={onImageSelect}
           />
