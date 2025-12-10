@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'; 
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ACTIVITY_LEVELS, calculateDailyTarget, safeParseInt } from '../lib/calories';
 import type { ProfileFormData, UserProfile } from '../types';
