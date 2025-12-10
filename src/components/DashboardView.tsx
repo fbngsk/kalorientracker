@@ -144,3 +144,80 @@ export function DashboardView({
               <div className="text-center py-10 text-slate-400 bg-white rounded-2xl border border-dashed border-slate-200">
                 Noch keine Einträge. Tippe auf + um zu starten.
               </div>
+            ) : (
+              todaysMeals.map((meal) => (
+                <div
+                  key={meal.id}
+                  className="bg-white p-3 rounded-2xl border border-slate-100 flex items-center gap-4 shadow-sm group"
+                >
+                  {meal.image_url ? (
+                    <div
+                      className="w-16 h-16 rounded-xl bg-cover bg-center flex-shrink-0"
+                      style={{ backgroundImage: `url(${meal.image_url})` }}
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-xl bg-slate-50 flex items-center justify-center flex-shrink-0 text-slate-300">
+                      {meal.type === 'drink' ? (
+                        <Droplet className="w-6 h-6" />
+                      ) : (
+                        <Activity className="w-6 h-6" />
+                      )}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start">
+                      <h4 className="font-bold text-slate-900 truncate">{meal.name}</h4>
+                      <span className="font-bold text-slate-900 text-sm whitespace-nowrap">
+                        {meal.calories} kcal
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+                      {meal.type === 'drink' && (
+                        <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded text-[10px] font-bold uppercase">
+                          Drink
+                        </span>
+                      )}
+                      <span>{formatTime(meal.created_at)}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => onDeleteMeal(meal.id)}
+                    className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-all opacity-0 group-hover:opacity-100"
+                    title="Löschen"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* FAB - Two Buttons */}
+      <div className="fixed bottom-8 left-0 right-0 flex justify-center gap-4 z-20 pointer-events-none">
+        {/* Quick Add Button */}
+        <button
+          onClick={onNavigateToQuickAdd}
+          className="pointer-events-auto w-14 h-14 bg-white border-2 border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-600 transition-all active:scale-90 hover:scale-105 hover:border-slate-300"
+          title="Schnell hinzufügen"
+        >
+          <Zap className="w-6 h-6" />
+        </button>
+        
+        {/* Photo Button */}
+        <label className="pointer-events-auto cursor-pointer group">
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onImageSelect}
+          />
+          <div className="w-16 h-16 bg-slate-900 rounded-full shadow-xl shadow-slate-300 flex items-center justify-center text-white transition-all group-active:scale-90 hover:scale-105">
+            <Plus className="w-8 h-8" />
+          </div>
+        </label>
+      </div>
+    </div>
+  );
+}
