@@ -99,4 +99,86 @@ function AppContent() {
     result: AnalysisResult,
     notes: string
   ): Promise<boolean> => {
-    const success = await addMeal(result, undef
+    const success = await addMeal(result, undefined, notes);
+    if (success) {
+      setView('dashboard');
+    }
+    return success;
+  };
+
+  const handleDeleteMeal = async (mealId: string) => {
+    if (window.confirm('Eintrag wirklich löschen?')) {
+      await deleteMeal(mealId);
+    }
+  };
+
+  if (view === 'quickadd') {
+    return (
+      <QuickAddView
+        onSave={handleQuickAddSave}
+        onCancel={() => setView('dashboard')}
+      />
+    );
+  }
+
+  if (view === 'history' && profile) {
+    return (
+      <HistoryView
+        meals={meals}
+        dailyTarget={profile.daily_target}
+        onBack={() => setView('dashboard')}
+      />
+    );
+  }
+
+  if (view === 'settings' && profile) {
+    return (
+      <SettingsView
+        profile={profile}
+        onSave={saveProfile}
+        onBack={() => setView('dashboard')}
+      />
+    );
+  }
+
+  if (view === 'analysis' && currentImage) {
+    return (
+      <AnalysisView
+        imageData={currentImage}
+        onSave={handleSaveMeal}
+        onCancel={() => {
+          setCurrentImage(null);
+          setView('dashboard');
+        }}
+      />
+    );
+  }
+
+  if (profile) {
+    return (
+      <DashboardView
+        profile={profile}
+        todaysMeals={todaysMeals}
+        dailyCalories={dailyCalories}
+        weeklyCalories={weeklyCalories}
+        dailyMacros={dailyMacros}
+        onNavigateToSettings={() => setView('settings')}
+        onNavigateToHistory={() => setView('history')}
+        onNavigateToQuickAdd={() => setView('quickadd')}
+        onImageSelect={handleImageSelect}
+        onDeleteMeal={handleDeleteMeal}
+        onSignOut={signOut}
+      />
+    );
+  }
+
+  return <LoadingScreen />;
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
