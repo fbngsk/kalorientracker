@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Settings, Plus, Droplet, Trash2, LogOut } from 'lucide-react';
+import { Activity, Settings, Plus, Droplet, Trash2, LogOut, Calendar } from 'lucide-react';
 import { formatTime } from '../lib/calories';
 import type { Meal, UserProfile } from '../types';
 
@@ -10,6 +10,7 @@ interface DashboardViewProps {
   weeklyCalories: number;
   dailyMacros: { protein: number; carbs: number; fat: number };
   onNavigateToSettings: () => void;
+  onNavigateToHistory: () => void;
   onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDeleteMeal: (mealId: string) => void;
   onSignOut: () => void;
@@ -38,6 +39,7 @@ export function DashboardView({
   weeklyCalories,
   dailyMacros,
   onNavigateToSettings,
+  onNavigateToHistory,
   onImageSelect,
   onDeleteMeal,
   onSignOut,
@@ -50,6 +52,13 @@ export function DashboardView({
       <div className="bg-white sticky top-0 z-10 border-b border-slate-100 px-6 py-4 flex justify-between items-center">
         <h1 className="text-xl font-bold text-slate-900 tracking-tight">Übersicht</h1>
         <div className="flex items-center gap-2">
+          <button
+            onClick={onNavigateToHistory}
+            className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-full transition-colors"
+            title="Verlauf"
+          >
+            <Calendar className="w-5 h-5" />
+          </button>
           <button
             onClick={onNavigateToSettings}
             className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-full transition-colors"
