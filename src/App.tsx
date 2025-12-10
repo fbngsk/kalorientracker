@@ -9,6 +9,7 @@ import { OnboardingView } from './components/OnboardingView';
 import { DashboardView } from './components/DashboardView';
 import { AnalysisView } from './components/AnalysisView';
 import { SettingsView } from './components/SettingsView';
+import { HistoryView } from './components/HistoryView';
 import type { AppView, ProfileFormData, AnalysisResult } from './types';
 
 function LoadingScreen() {
@@ -26,6 +27,7 @@ function AppContent() {
   const { user, loading: authLoading, signOut } = useAuth();
   const { profile, loading: profileLoading, saveProfile, hasProfile } = useProfile();
   const { 
+    meals,
     todaysMeals, 
     dailyCalories, 
     weeklyCalories, 
@@ -106,6 +108,17 @@ function AppContent() {
     }
   };
 
+  // History view
+  if (view === 'history' && profile) {
+    return (
+      <HistoryView
+        meals={meals}
+        dailyTarget={profile.daily_target}
+        onBack={() => setView('dashboard')}
+      />
+    );
+  }
+
   // Settings view
   if (view === 'settings' && profile) {
     return (
@@ -141,6 +154,7 @@ function AppContent() {
         weeklyCalories={weeklyCalories}
         dailyMacros={dailyMacros}
         onNavigateToSettings={() => setView('settings')}
+        onNavigateToHistory={() => setView('history')}
         onImageSelect={handleImageSelect}
         onDeleteMeal={handleDeleteMeal}
         onSignOut={signOut}
