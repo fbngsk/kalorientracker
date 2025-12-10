@@ -61,4 +61,4 @@ export interface AuthUser {
 
 // --- View Types ---
 
-export type AppView = 'loading' | 'auth' | 'onboarding' | 'dashboard' | 'analysis' | 'settings' | 'history';
+export type AppView = 'loading' | 'auth' | 'onboarding' | 'dashboard' | 'analysis' | 'settings' | 'history' | 'quickadd';
