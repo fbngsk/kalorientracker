@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, Activity, Save, Loader2 } from 'lucide-react';
 import { analyzeImageWithGemini } from '../lib/gemini';
 import { safeParseInt } from '../lib/calories';
