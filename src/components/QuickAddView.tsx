@@ -219,4 +219,17 @@ Antworte NUR mit diesem JSON:
                 Zurück
               </button>
               <button
-                onClick={hand
+                onClick={handleSave}
+                disabled={isSaving}
+                className="flex-1 py-4 bg-green-500 text-white rounded-2xl font-bold flex items-center justify-center gap-2 disabled:opacity-70"
+              >
+                {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                Speichern
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
