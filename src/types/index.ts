@@ -23,8 +23,8 @@ export interface UserProfile {
   user_id: string;
   gender: 'male' | 'female';
   age: number;
-  weight: number; // kg
-  height: number; // cm
+  weight: number;
+  height: number;
   activity_level: number;
   goal_weight: number;
   daily_target: number;
@@ -61,4 +61,4 @@ export interface AuthUser {
 
 // --- View Types ---
 
-export type AppView = 'loading' | 'auth' | 'onboarding' | 'dashboard' | 'analysis' | 'settings';
+export type AppView = 'loading' | 'auth' | 'onboarding' | 'dashboard' | 'analysis' | 'settings' | 'history';
