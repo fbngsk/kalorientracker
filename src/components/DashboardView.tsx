@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import { Activity, Settings, Plus, Droplet, Trash2, LogOut, Calendar } from 'lucide-react';
 import { formatTime } from '../lib/calories';
 import type { Meal, UserProfile } from '../types';
