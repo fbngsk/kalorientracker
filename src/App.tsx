@@ -10,6 +10,7 @@ import { DashboardView } from './components/DashboardView';
 import { AnalysisView } from './components/AnalysisView';
 import { SettingsView } from './components/SettingsView';
 import { HistoryView } from './components/HistoryView';
+import { QuickAddView } from './components/QuickAddView';
 import type { AppView, ProfileFormData, AnalysisResult } from './types';
 
 function LoadingScreen() {
@@ -39,17 +40,14 @@ function AppContent() {
   const [view, setView] = useState<AppView>('dashboard');
   const [currentImage, setCurrentImage] = useState<string | null>(null);
 
-  // Loading state
   if (authLoading || (user && profileLoading)) {
     return <LoadingScreen />;
   }
 
-  // Not authenticated
   if (!user) {
     return <AuthView />;
   }
 
-  // Needs onboarding
   if (!hasProfile && view !== 'onboarding') {
     return (
       <OnboardingView
@@ -64,7 +62,6 @@ function AppContent() {
     );
   }
 
-  // Handle image selection
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -82,12 +79,9 @@ function AppContent() {
       }
     };
     reader.readAsDataURL(file);
-
-    // Reset input so same file can be selected again
     e.target.value = '';
   };
 
-  // Handle save from analysis
   const handleSaveMeal = async (
     result: AnalysisResult,
     imageUrl: string,
@@ -101,74 +95,8 @@ function AppContent() {
     return success;
   };
 
-  // Handle delete meal
-  const handleDeleteMeal = async (mealId: string) => {
-    if (window.confirm('Eintrag wirklich löschen?')) {
-      await deleteMeal(mealId);
-    }
-  };
-
-  // History view
-  if (view === 'history' && profile) {
-    return (
-      <HistoryView
-        meals={meals}
-        dailyTarget={profile.daily_target}
-        onBack={() => setView('dashboard')}
-      />
-    );
-  }
-
-  // Settings view
-  if (view === 'settings' && profile) {
-    return (
-      <SettingsView
-        profile={profile}
-        onSave={saveProfile}
-        onBack={() => setView('dashboard')}
-      />
-    );
-  }
-
-  // Analysis view
-  if (view === 'analysis' && currentImage) {
-    return (
-      <AnalysisView
-        imageData={currentImage}
-        onSave={handleSaveMeal}
-        onCancel={() => {
-          setCurrentImage(null);
-          setView('dashboard');
-        }}
-      />
-    );
-  }
-
-  // Dashboard (default)
-  if (profile) {
-    return (
-      <DashboardView
-        profile={profile}
-        todaysMeals={todaysMeals}
-        dailyCalories={dailyCalories}
-        weeklyCalories={weeklyCalories}
-        dailyMacros={dailyMacros}
-        onNavigateToSettings={() => setView('settings')}
-        onNavigateToHistory={() => setView('history')}
-        onImageSelect={handleImageSelect}
-        onDeleteMeal={handleDeleteMeal}
-        onSignOut={signOut}
-      />
-    );
-  }
-
-  return <LoadingScreen />;
-}
-
-export default function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
-  );
-}
+  const handleQuickAddSave = async (
+    result: AnalysisResult,
+    notes: string
+  ): Promise<boolean> => {
+    const success = await addMeal(result, undef
